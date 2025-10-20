@@ -4,7 +4,6 @@ class Solution {
 
     while (left <= right) {
       int mid = left + ((right - left) >> 1);
-
       if (nums[mid] == target) {
         return mid;
       } else if (nums[mid] < target) {
@@ -13,7 +12,6 @@ class Solution {
         right = mid - 1;
       }
     }
-
     return left; // insertion position
   }
 }
