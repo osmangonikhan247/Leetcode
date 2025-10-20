@@ -12,7 +12,7 @@ class Solution {
     if (root.left == null && root.right == null) {
       return root.val == targetSum;
     }
-    // Recur for left and right with reduced target
+    // Recur left and right with reduced target
     int remaining = targetSum - root.val;
     return hasPathSum(root.left, remaining) || hasPathSum(root.right, remaining);
   }
