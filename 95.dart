@@ -11,7 +11,6 @@ class Solution {
 
     return _generate(1, n);
   }
-
   List<TreeNode?> _generate(int start, int end) {
     List<TreeNode?> result = [];
 
@@ -19,7 +18,6 @@ class Solution {
       result.add(null);
       return result;
     }
-
     for (int i = start; i <= end; i++) {
       List<TreeNode?> leftTrees = _generate(start, i - 1);
       List<TreeNode?> rightTrees = _generate(i + 1, end);
@@ -33,7 +31,6 @@ class Solution {
         }
       }
     }
-
     return result;
   }
 }
