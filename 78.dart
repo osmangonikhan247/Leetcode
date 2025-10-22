@@ -8,7 +8,6 @@ class Solution {
         result.add([...result[i], num]);
       }
     }
-
     return result;
   }
 }

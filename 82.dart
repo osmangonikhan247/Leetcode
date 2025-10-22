@@ -25,10 +25,8 @@ class Solution {
         // Move prev only if current value is unique
         prev = prev!.next;
       }
-
       head = head.next;
     }
-
     return dummy.next;
   }
 }

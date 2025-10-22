@@ -12,7 +12,6 @@ class Solution {
         index++;
       }
     }
-
     return index; // 'index' is the new length
   }
 }

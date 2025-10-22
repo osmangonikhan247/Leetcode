@@ -19,7 +19,6 @@ class Solution {
     return head;
   }
 }
-
 // Example usage
 void main() {
   // Helper to build linked list
@@ -33,7 +32,6 @@ void main() {
     }
     return head;
   }
-
   // Helper to print linked list
   void printList(ListNode? head) {
     List<int> result = [];
@@ -43,7 +41,6 @@ void main() {
     }
     print(result);
   }
-
   Solution sol = Solution();
 
   ListNode? head1 = buildList([1, 1, 2]);

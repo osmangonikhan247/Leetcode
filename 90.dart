@@ -6,7 +6,6 @@ class Solution {
 
     void backtrack(int start) {
       result.add(List.from(current));
-
       for (int i = start; i < nums.length; i++) {
         if (i > start && nums[i] == nums[i - 1]) continue;
         current.add(nums[i]);
@@ -14,7 +13,6 @@ class Solution {
         current.removeLast();
       }
     }
-
     backtrack(0);
     return result;
   }
