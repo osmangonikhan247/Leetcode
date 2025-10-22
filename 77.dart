@@ -8,7 +8,6 @@ class Solution {
         result.add(List.from(current));
         return;
       }
-
       // Try all possible next numbers
       for (int i = start; i <= n; i++) {
         current.add(i);
@@ -21,7 +20,6 @@ class Solution {
     return result;
   }
 }
-
 void main() {
   Solution sol = Solution();
 

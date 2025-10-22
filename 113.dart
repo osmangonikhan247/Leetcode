@@ -11,7 +11,6 @@ class Solution {
     _dfs(root, targetSum, [], result);
     return result;
   }
-
   void _dfs(TreeNode? node, int remaining, List<int> path, List<List<int>> result) {
     if (node == null) return;
 
