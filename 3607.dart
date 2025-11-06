@@ -1,7 +1,10 @@
+import 'dart:collection';
+
 class Solution {
-  List<int> parent = [];
-  List<int> minOnline = [];
-  List<bool> online = [];
+  late List<int> parent;
+  late List<int> rank;
+  late List<SplayTreeSet<int>> groupOnline; // fast min + remove
+  late List<bool> online;
 
   int find(int x) {
     if (parent[x] != x) parent[x] = find(parent[x]);
@@ -12,50 +15,65 @@ class Solution {
     int pa = find(a);
     int pb = find(b);
     if (pa == pb) return;
-    if (pa < pb) {
-      parent[pb] = pa;
-      minOnline[pa] = minOnline[pa] < minOnline[pb] ? minOnline[pa] : minOnline[pb];
-    } else {
+
+    // Union by rank
+    if (rank[pa] < rank[pb]) {
       parent[pa] = pb;
-      minOnline[pb] = minOnline[pa] < minOnline[pb] ? minOnline[pa] : minOnline[pb];
+      groupOnline[pb].addAll(groupOnline[pa]);
+      groupOnline[pa].clear();
+    } else if (rank[pb] < rank[pa]) {
+      parent[pb] = pa;
+      groupOnline[pa].addAll(groupOnline[pb]);
+      groupOnline[pb].clear();
+    } else {
+      parent[pb] = pa;
+      rank[pa]++;
+      groupOnline[pa].addAll(groupOnline[pb]);
+      groupOnline[pb].clear();
     }
   }
 
-  List<int> processQueries(int c, List<List<int>> connections, List<List<int>> queries) {
+  List<int> processQueries(
+      int c, List<List<int>> connections, List<List<int>> queries) {
     parent = List.generate(c + 1, (i) => i);
-    minOnline = List.generate(c + 1, (i) => i);
-    online = List.generate(c + 1, (i) => true);
+    rank = List.filled(c + 1, 0);
+    online = List.filled(c + 1, true);
+    groupOnline = List.generate(c + 1, (_) => SplayTreeSet<int>());
 
+    for (int i = 1; i <= c; i++) {
+      groupOnline[i].add(i);
+    }
+
+    // Union all connections
     for (var conn in connections) {
       union(conn[0], conn[1]);
     }
 
-    List<int> result = [];
+    List<int> res = [];
 
     for (var q in queries) {
       int type = q[0];
       int x = q[1];
+      int root = find(x);
 
       if (type == 1) {
         if (online[x]) {
-          result.add(x);
+          res.add(x);
         } else {
-          int root = find(x);
-          int candidate = -1;
-          for (int i = 1; i <= c; i++) {
-            if (find(i) == root && online[i]) {
-              candidate = i;
-              break;
-            }
+          if (groupOnline[root].isEmpty) {
+            res.add(-1);
+          } else {
+            res.add(groupOnline[root].first);
           }
-          result.add(candidate);
-          if (candidate != -1) minOnline[root] = candidate;
         }
       } else {
-        online[x] = false;
+        if (online[x]) {
+          online[x] = false;
+          groupOnline[root].remove(x);
+        }
       }
     }
 
-    return result;
+    return res;
   }
 }
